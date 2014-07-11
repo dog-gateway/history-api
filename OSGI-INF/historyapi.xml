@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" name="it.polito.elite.dog.communication.rest.history.api">
+   <implementation class="it.polito.elite.dog.communication.rest.history.HistoryRESTEndpoint"/>
+   <service>
+      <provide interface="it.polito.elite.dog.communication.rest.history.api.HistoryRESTApi"/>
+   </service>
+   <reference bind="addedEventStore" cardinality="1..1" interface="it.polito.elite.dog.addons.storage.EventStore" name="EventStore" policy="static"/>
+</scr:component>
