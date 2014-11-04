@@ -65,7 +65,7 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 		// initialize the atomic reference
 		this.eventStore = new AtomicReference<>();
 
-		this.sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXX");
+		this.sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXX");
 
 		// initialize the instance-wide object mapper
 		this.mapper = new ObjectMapper();
