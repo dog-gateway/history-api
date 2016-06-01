@@ -3,6 +3,7 @@
  */
 package it.polito.elite.dog.communication.rest.history.api;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -10,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -52,7 +54,7 @@ public interface HistoryRESTApi
 			@QueryParam("start") String startDate,
 			@QueryParam("end") String endDate,
 			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+			@QueryParam("limit") Integer limit, @Context HttpServletResponse httpResponse);
 
 	/**
 	 * Provides the history of all non parametric notifications associated to
@@ -87,7 +89,7 @@ public interface HistoryRESTApi
 			@QueryParam("end") String endDate,
 			@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit,
-			@QueryParam("aggregate") Boolean aggregate);
+			@QueryParam("aggregate") Boolean aggregate, @Context HttpServletResponse httpResponse);
 
 	/**
 	 * Provides the history of all continuous states associated to the given
@@ -118,7 +120,7 @@ public interface HistoryRESTApi
 			@QueryParam("start") String startDate,
 			@QueryParam("end") String endDate,
 			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+			@QueryParam("limit") Integer limit, @Context HttpServletResponse httpResponse);
 
 	/**
 	 * Provides the history of all discrete states associated to the given
@@ -153,7 +155,7 @@ public interface HistoryRESTApi
 			@QueryParam("end") String endDate,
 			@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit,
-			@QueryParam("aggregate") Boolean aggregate);
+			@QueryParam("aggregate") Boolean aggregate, @Context HttpServletResponse httpResponse);
 
 	@GET
 	@Path("/devices/{device-id}/notifications/parametric/{notification-name}/{notification-params}")
@@ -165,7 +167,7 @@ public interface HistoryRESTApi
 			@QueryParam("start") String startDate,
 			@QueryParam("end") String endDate,
 			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+			@QueryParam("limit") Integer limit, @Context HttpServletResponse httpResponse);
 
 	@GET
 	@Path("/devices/{device-id}/notifications/parametric/{notification-name}")
@@ -176,7 +178,7 @@ public interface HistoryRESTApi
 			@QueryParam("start") String startDate,
 			@QueryParam("end") String endDate,
 			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+			@QueryParam("limit") Integer limit, @Context HttpServletResponse httpResponse);
 
 	@GET
 	@Path("/devices/{device-id}/notifications/nonparametric/{notification-name}")
@@ -187,7 +189,7 @@ public interface HistoryRESTApi
 			@QueryParam("start") String startDate,
 			@QueryParam("end") String endDate,
 			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+			@QueryParam("limit") Integer limit, @Context HttpServletResponse httpResponse);
 
 	@GET
 	@Path("/devices/{device-id}/states/continuous/{state-name}/{state-params}")
@@ -199,7 +201,7 @@ public interface HistoryRESTApi
 			@QueryParam("start") String startDate,
 			@QueryParam("end") String endDate,
 			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+			@QueryParam("limit") Integer limit, @Context HttpServletResponse httpResponse);
 
 	@GET
 	@Path("/devices/{device-id}/states/continuous/{state-name}")
@@ -210,7 +212,7 @@ public interface HistoryRESTApi
 			@QueryParam("start") String startDate,
 			@QueryParam("end") String endDate,
 			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+			@QueryParam("limit") Integer limit, @Context HttpServletResponse httpResponse);
 
 	@GET
 	@Path("/devices/{device-id}/states/discrete/{state-name}")
@@ -221,7 +223,7 @@ public interface HistoryRESTApi
 			@QueryParam("start") String startDate,
 			@QueryParam("end") String endDate,
 			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+			@QueryParam("limit") Integer limit, @Context HttpServletResponse httpResponse);
 	
 	// -------------- CSV PUT -------------------------
 
@@ -231,7 +233,7 @@ public interface HistoryRESTApi
 	public void insertSpecificDeviceParametricNotificationCSV(
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
-			String csvData);
+			String csvData, @Context HttpServletResponse httpResponse);
 
 	@PUT
 	@Path("/devices/{device-id}/notifications/parametric/{notification-name}/{notification-params}")
@@ -240,7 +242,7 @@ public interface HistoryRESTApi
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
 			@PathParam("notification-params") String notificationParams,
-			String csvData);
+			String csvData, @Context HttpServletResponse httpResponse);
 	
 	@PUT
 	@Path("/devices/{device-id}/notifications/nonparametric/{notification-name}")
@@ -248,7 +250,7 @@ public interface HistoryRESTApi
 	public void insertSpecificDeviceNonParametricNotificationCSV(
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
-			String csvData);
+			String csvData, @Context HttpServletResponse httpResponse);
 	
 	@PUT
 	@Path("/devices/{device-id}/states/continuous/{state-name}")
@@ -256,7 +258,7 @@ public interface HistoryRESTApi
 	public void insertSpecificDeviceContinuousStateCSV(
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
-			String csvData);
+			String csvData, @Context HttpServletResponse httpResponse);
 
 	@PUT
 	@Path("/devices/{device-id}/states/continuous/{state-name}/{state-params}")
@@ -265,7 +267,7 @@ public interface HistoryRESTApi
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
 			@PathParam("state-params") String stateParams,
-			String csvData);
+			String csvData, @Context HttpServletResponse httpResponse);
 	
 	@PUT
 	@Path("/devices/{device-id}/states/discrete/{state-name}")
@@ -273,7 +275,7 @@ public interface HistoryRESTApi
 	public void insertSpecificDeviceDiscreteStateCSV(
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
-			String csvData);
+			String csvData, @Context HttpServletResponse httpResponse);
 	
 	// ------------ JSON PUT ------------------
 	
@@ -283,7 +285,7 @@ public interface HistoryRESTApi
 	public void insertSpecificDeviceParametricNotificationJSON(
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
-			String jsonData);
+			String jsonData, @Context HttpServletResponse httpResponse);
 
 	@PUT
 	@Path("/devices/{device-id}/notifications/parametric/{notification-name}/{notification-params}")
@@ -292,7 +294,7 @@ public interface HistoryRESTApi
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
 			@PathParam("notification-params") String notificationParams,
-			String jsonData);
+			String jsonData, @Context HttpServletResponse httpResponse);
 	
 	@PUT
 	@Path("/devices/{device-id}/notifications/nonparametric/{notification-name}")
@@ -300,7 +302,7 @@ public interface HistoryRESTApi
 	public void insertSpecificDeviceNonParametricNotificationJSON(
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
-			String jsonData);
+			String jsonData, @Context HttpServletResponse httpResponse);
 	
 	@PUT
 	@Path("/devices/{device-id}/states/continuous/{state-name}")
@@ -308,7 +310,7 @@ public interface HistoryRESTApi
 	public void insertSpecificDeviceContinuousStateJSON(
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
-			String jsonData);
+			String jsonData, @Context HttpServletResponse httpResponse);
 
 	@PUT
 	@Path("/devices/{device-id}/states/continuous/{state-name}/{state-params}")
@@ -317,7 +319,7 @@ public interface HistoryRESTApi
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
 			@PathParam("state-params") String stateParams,
-			String jsonData);
+			String jsonData, @Context HttpServletResponse httpResponse);
 	
 	@PUT
 	@Path("/devices/{device-id}/states/discrete/{state-name}")
@@ -325,6 +327,6 @@ public interface HistoryRESTApi
 	public void insertSpecificDeviceDiscreteStateJSON(
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
-			String jsonData);
+			String jsonData, @Context HttpServletResponse httpResponse);
 
 }

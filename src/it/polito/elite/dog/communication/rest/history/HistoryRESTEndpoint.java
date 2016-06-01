@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Path;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -80,8 +81,8 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 		AnnotationIntrospector jackson = new JacksonAnnotationIntrospector();
 
 		// make deserializer use Jackson
-		this.mapper.getDeserializationConfig().withAnnotationIntrospector(
-				jackson);
+		this.mapper.getDeserializationConfig()
+				.withAnnotationIntrospector(jackson);
 		// make serializer use Jackson
 		this.mapper.getSerializationConfig()
 				.withAnnotationIntrospector(jackson);
@@ -150,8 +151,10 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public String getAllDeviceParametricNotifications(String deviceId,
-			String startDate, String endDate, Integer offset, Integer limit)
+			String startDate, String endDate, Integer offset, Integer limit,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		return this.getDeviceEventData(deviceId, startDate, endDate, offset,
 				limit, null, EventDataType.MEASURE, EventType.NOTIFICATION);
 	}
@@ -159,8 +162,9 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 	@Override
 	public String getAllDeviceNonParametricNotifications(String deviceId,
 			String startDate, String endDate, Integer offset, Integer limit,
-			Boolean aggregate)
+			Boolean aggregate, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		return this.getDeviceEventData(deviceId, startDate, endDate, offset,
 				limit, aggregate, EventDataType.NOTMEASURE,
 				EventType.NOTIFICATION);
@@ -168,16 +172,20 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public String getAllDeviceContinuousStates(String deviceId,
-			String startDate, String endDate, Integer offset, Integer limit)
+			String startDate, String endDate, Integer offset, Integer limit,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		return this.getDeviceEventData(deviceId, startDate, endDate, offset,
 				limit, null, EventDataType.MEASURE, EventType.STATE);
 	}
 
 	@Override
 	public String getAllDeviceDiscreteStates(String deviceId, String startDate,
-			String endDate, Integer offset, Integer limit, Boolean aggregate)
+			String endDate, Integer offset, Integer limit, Boolean aggregate,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		return this.getDeviceEventData(deviceId, startDate, endDate, offset,
 				limit, aggregate, EventDataType.NOTMEASURE, EventType.STATE);
 	}
@@ -250,18 +258,18 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 					{
 						case MEASURE:
 						{
-							events = this.eventStore
-									.get()
+							events = this.eventStore.get()
 									.getAllDeviceParametricNotifications(
-											deviceId, start, end, offset, limit);
+											deviceId, start, end, offset,
+											limit);
 							break;
 						}
 						case NOTMEASURE:
 						{
 							events = this.eventStore.get()
 									.getAllDeviceNonParametricNotifications(
-											deviceId, start, end, offset,
-											limit, aggregate);
+											deviceId, start, end, offset, limit,
+											aggregate);
 							break;
 						}
 					}
@@ -282,9 +290,8 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 						case NOTMEASURE:
 						{
 							events = this.eventStore.get()
-									.getAllDeviceDiscreteStates(deviceId,
-											start, end, offset, limit,
-											aggregate);
+									.getAllDeviceDiscreteStates(deviceId, start,
+											end, offset, limit, aggregate);
 							break;
 						}
 					}
@@ -297,7 +304,8 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 		{
 			this.logger.log(LogService.LOG_ERROR,
 					"Unable to compose the response message for the paramteric notifications of "
-							+ deviceId, e);
+							+ deviceId,
+					e);
 		}
 
 		if (extractedNotificationsJSON.isEmpty())
@@ -312,8 +320,10 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 	@Override
 	public String getDeviceSpecificParametricNotification(String deviceId,
 			String notificationName, String notificationParams,
-			String startDate, String endDate, Integer offset, Integer limit)
+			String startDate, String endDate, Integer offset, Integer limit,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		return this.getDeviceSpecificEventData(deviceId, notificationName,
 				notificationParams, startDate, endDate, offset, limit,
 				EventDataType.MEASURE, EventType.NOTIFICATION);
@@ -322,39 +332,43 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 	@Override
 	public String getDeviceSpecificParametricNotification(String deviceId,
 			String notificationName, String startDate, String endDate,
-			Integer offset, Integer limit)
+			Integer offset, Integer limit, HttpServletResponse httpResponse)
 	{
-		return this.getDeviceSpecificEventData(deviceId, notificationName,
-				null, startDate, endDate, offset, limit, EventDataType.MEASURE,
+		this.setCORSSupport(httpResponse);
+		return this.getDeviceSpecificEventData(deviceId, notificationName, null,
+				startDate, endDate, offset, limit, EventDataType.MEASURE,
 				EventType.NOTIFICATION);
 	}
 
 	@Override
 	public String getDeviceSpecificNonParametricNotification(String deviceId,
 			String notificationName, String startDate, String endDate,
-			Integer offset, Integer limit)
+			Integer offset, Integer limit, HttpServletResponse httpResponse)
 	{
-
-		return this.getDeviceSpecificEventData(deviceId, notificationName,
-				null, startDate, endDate, offset, limit,
-				EventDataType.NOTMEASURE, EventType.NOTIFICATION);
+		this.setCORSSupport(httpResponse);
+		return this.getDeviceSpecificEventData(deviceId, notificationName, null,
+				startDate, endDate, offset, limit, EventDataType.NOTMEASURE,
+				EventType.NOTIFICATION);
 	}
 
 	@Override
 	public String getDeviceSpecificContinuousStates(String deviceId,
 			String stateName, String stateParams, String startDate,
-			String endDate, Integer offset, Integer limit)
+			String endDate, Integer offset, Integer limit,
+			HttpServletResponse httpResponse)
 	{
-		return this.getDeviceSpecificEventData(deviceId, stateName,
-				stateParams, startDate, endDate, offset, limit,
-				EventDataType.MEASURE, EventType.STATE);
+		this.setCORSSupport(httpResponse);
+		return this.getDeviceSpecificEventData(deviceId, stateName, stateParams,
+				startDate, endDate, offset, limit, EventDataType.MEASURE,
+				EventType.STATE);
 	}
 
 	@Override
 	public String getDeviceSpecificContinuousStates(String deviceId,
 			String stateName, String startDate, String endDate, Integer offset,
-			Integer limit)
+			Integer limit, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		return this.getDeviceSpecificEventData(deviceId, stateName, null,
 				startDate, endDate, offset, limit, EventDataType.MEASURE,
 				EventType.STATE);
@@ -363,8 +377,9 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 	@Override
 	public String getDeviceSpecificDiscreteStates(String deviceId,
 			String stateName, String startDate, String endDate, Integer offset,
-			Integer limit)
+			Integer limit, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		return this.getDeviceSpecificEventData(deviceId, stateName, null,
 				startDate, endDate, offset, limit, EventDataType.NOTMEASURE,
 				EventType.STATE);
@@ -443,8 +458,7 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 						}
 						case NOTMEASURE:
 						{
-							events = this.eventStore
-									.get()
+							events = this.eventStore.get()
 									.getSpecificDeviceNonParametricNotifications(
 											deviceId, name, start, end, offset,
 											limit);
@@ -461,9 +475,9 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 						case MEASURE:
 						{
 							events = this.eventStore.get()
-									.getSpecificDeviceContinuousStates(
-											deviceId, name, params, start, end,
-											offset, limit);
+									.getSpecificDeviceContinuousStates(deviceId,
+											name, params, start, end, offset,
+											limit);
 							break;
 						}
 						case NOTMEASURE:
@@ -483,7 +497,8 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 		{
 			this.logger.log(LogService.LOG_ERROR,
 					"Unable to compose the response message for the paramteric notifications of "
-							+ deviceId, e);
+							+ deviceId,
+					e);
 		}
 
 		if (extractedNotificationsJSON.isEmpty())
@@ -497,8 +512,10 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public void insertSpecificDeviceParametricNotificationCSV(String deviceId,
-			String notificationName, String csvData)
+			String notificationName, String csvData,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName, null,
 				csvData, EventDataType.MEASURE, EventType.NOTIFICATION,
 				MediaType.TEXT_PLAIN);
@@ -506,8 +523,10 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public void insertSpecificDeviceParametricNotificationCSV(String deviceId,
-			String notificationName, String notificationParams, String csvData)
+			String notificationName, String notificationParams, String csvData,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName,
 				notificationParams, csvData, EventDataType.MEASURE,
 				EventType.NOTIFICATION, MediaType.TEXT_PLAIN);
@@ -516,8 +535,10 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public void insertSpecificDeviceNonParametricNotificationCSV(
-			String deviceId, String notificationName, String csvData)
+			String deviceId, String notificationName, String csvData,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName, null,
 				csvData, EventDataType.NOTMEASURE, EventType.NOTIFICATION,
 				MediaType.TEXT_PLAIN);
@@ -525,16 +546,19 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public void insertSpecificDeviceContinuousStateCSV(String deviceId,
-			String stateName, String csvData)
+			String stateName, String csvData, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, null, csvData,
 				EventDataType.MEASURE, EventType.STATE, MediaType.TEXT_PLAIN);
 	}
 
 	@Override
 	public void insertSpecificDeviceContinuousStateCSV(String deviceId,
-			String stateName, String stateParams, String csvData)
+			String stateName, String stateParams, String csvData,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, stateParams,
 				csvData, EventDataType.MEASURE, EventType.STATE,
 				MediaType.TEXT_PLAIN);
@@ -542,16 +566,20 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public void insertSpecificDeviceDiscreteStateCSV(String deviceId,
-			String stateName, String csvData)
+			String stateName, String csvData, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, null, csvData,
-				EventDataType.NOTMEASURE, EventType.STATE, MediaType.TEXT_PLAIN);
+				EventDataType.NOTMEASURE, EventType.STATE,
+				MediaType.TEXT_PLAIN);
 	}
 
 	@Override
 	public void insertSpecificDeviceParametricNotificationJSON(String deviceId,
-			String notificationName, String jsonData)
+			String notificationName, String jsonData,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName, null,
 				jsonData, EventDataType.MEASURE, EventType.NOTIFICATION,
 				MediaType.APPLICATION_JSON);
@@ -559,8 +587,10 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public void insertSpecificDeviceParametricNotificationJSON(String deviceId,
-			String notificationName, String notificationParams, String jsonData)
+			String notificationName, String notificationParams, String jsonData,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName,
 				notificationParams, jsonData, EventDataType.MEASURE,
 				EventType.NOTIFICATION, MediaType.APPLICATION_JSON);
@@ -569,8 +599,10 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public void insertSpecificDeviceNonParametricNotificationJSON(
-			String deviceId, String notificationName, String jsonData)
+			String deviceId, String notificationName, String jsonData,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName, null,
 				jsonData, EventDataType.NOTMEASURE, EventType.NOTIFICATION,
 				MediaType.APPLICATION_JSON);
@@ -578,8 +610,9 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public void insertSpecificDeviceContinuousStateJSON(String deviceId,
-			String stateName, String jsonData)
+			String stateName, String jsonData, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, null, jsonData,
 				EventDataType.MEASURE, EventType.STATE,
 				MediaType.APPLICATION_JSON);
@@ -587,8 +620,10 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public void insertSpecificDeviceContinuousStateJSON(String deviceId,
-			String stateName, String stateParams, String jsonData)
+			String stateName, String stateParams, String jsonData,
+			HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, stateParams,
 				jsonData, EventDataType.MEASURE, EventType.STATE,
 				MediaType.APPLICATION_JSON);
@@ -596,8 +631,9 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 
 	@Override
 	public void insertSpecificDeviceDiscreteStateJSON(String deviceId,
-			String stateName, String jsonData)
+			String stateName, String jsonData, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, null, jsonData,
 				EventDataType.NOTMEASURE, EventType.STATE,
 				MediaType.APPLICATION_JSON);
@@ -645,9 +681,9 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 						}
 						case NOTMEASURE:
 						{
-							this.eventStore
-									.get()
-									.insertNonParametricNotifications(streamSet);
+							this.eventStore.get()
+									.insertNonParametricNotifications(
+											streamSet);
 							break;
 						}
 					}
@@ -659,14 +695,14 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 					{
 						case MEASURE:
 						{
-							this.eventStore.get().insertContinuousStates(
-									streamSet);
+							this.eventStore.get()
+									.insertContinuousStates(streamSet);
 							break;
 						}
 						case NOTMEASURE:
 						{
-							this.eventStore.get().insertDiscreteStates(
-									streamSet);
+							this.eventStore.get()
+									.insertDiscreteStates(streamSet);
 							break;
 						}
 					}
@@ -684,8 +720,7 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 		{
 			// extract the set of datapoints to add
 			ArrayList<EventDataPoint> dataPoints = this.mapper.readValue(
-					jsonData,
-					mapper.getTypeFactory().constructCollectionType(
+					jsonData, mapper.getTypeFactory().constructCollectionType(
 							ArrayList.class, EventDataPoint.class));
 
 			// store the datapoints
@@ -696,8 +731,7 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 			this.logger.log(LogService.LOG_ERROR,
 					"Error while parsing the given json data", e);
 
-			throw new WebApplicationException(
-					Response.Status.BAD_REQUEST);
+			throw new WebApplicationException(Response.Status.BAD_REQUEST);
 		}
 	}
 
@@ -729,8 +763,13 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 			this.logger.log(LogService.LOG_ERROR,
 					"Error while parsing the given csv data", e);
 
-			throw new WebApplicationException(
-					Response.Status.BAD_REQUEST);
+			throw new WebApplicationException(Response.Status.BAD_REQUEST);
 		}
 	}
+
+	private void setCORSSupport(HttpServletResponse response)
+	{
+		response.addHeader("Access-Control-Allow-Origin", "*");
+	}
+
 }
