@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * @author bonino
@@ -230,7 +231,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/notifications/parametric/{notification-name}")
 	@Consumes(MediaType.TEXT_PLAIN)
-	public void insertSpecificDeviceParametricNotificationCSV(
+	public Response insertSpecificDeviceParametricNotificationCSV(
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
 			String csvData, @Context HttpServletResponse httpResponse);
@@ -238,7 +239,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/notifications/parametric/{notification-name}/{notification-params}")
 	@Consumes(MediaType.TEXT_PLAIN)
-	public void insertSpecificDeviceParametricNotificationCSV(
+	public Response insertSpecificDeviceParametricNotificationCSV(
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
 			@PathParam("notification-params") String notificationParams,
@@ -247,7 +248,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/notifications/nonparametric/{notification-name}")
 	@Consumes(MediaType.TEXT_PLAIN)
-	public void insertSpecificDeviceNonParametricNotificationCSV(
+	public Response insertSpecificDeviceNonParametricNotificationCSV(
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
 			String csvData, @Context HttpServletResponse httpResponse);
@@ -255,7 +256,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/states/continuous/{state-name}")
 	@Consumes(MediaType.TEXT_PLAIN)
-	public void insertSpecificDeviceContinuousStateCSV(
+	public Response insertSpecificDeviceContinuousStateCSV(
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
 			String csvData, @Context HttpServletResponse httpResponse);
@@ -263,7 +264,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/states/continuous/{state-name}/{state-params}")
 	@Consumes(MediaType.TEXT_PLAIN)
-	public void insertSpecificDeviceContinuousStateCSV(
+	public Response insertSpecificDeviceContinuousStateCSV(
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
 			@PathParam("state-params") String stateParams,
@@ -272,7 +273,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/states/discrete/{state-name}")
 	@Consumes(MediaType.TEXT_PLAIN)
-	public void insertSpecificDeviceDiscreteStateCSV(
+	public Response insertSpecificDeviceDiscreteStateCSV(
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
 			String csvData, @Context HttpServletResponse httpResponse);
@@ -282,7 +283,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/notifications/parametric/{notification-name}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void insertSpecificDeviceParametricNotificationJSON(
+	public Response insertSpecificDeviceParametricNotificationJSON(
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
 			String jsonData, @Context HttpServletResponse httpResponse);
@@ -290,7 +291,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/notifications/parametric/{notification-name}/{notification-params}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void insertSpecificDeviceParametricNotificationJSON(
+	public Response insertSpecificDeviceParametricNotificationJSON(
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
 			@PathParam("notification-params") String notificationParams,
@@ -299,7 +300,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/notifications/nonparametric/{notification-name}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void insertSpecificDeviceNonParametricNotificationJSON(
+	public Response insertSpecificDeviceNonParametricNotificationJSON(
 			@PathParam("device-id") String deviceId,
 			@PathParam("notification-name") String notificationName,
 			String jsonData, @Context HttpServletResponse httpResponse);
@@ -307,7 +308,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/states/continuous/{state-name}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void insertSpecificDeviceContinuousStateJSON(
+	public Response insertSpecificDeviceContinuousStateJSON(
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
 			String jsonData, @Context HttpServletResponse httpResponse);
@@ -315,7 +316,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/states/continuous/{state-name}/{state-params}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void insertSpecificDeviceContinuousStateJSON(
+	public Response insertSpecificDeviceContinuousStateJSON(
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
 			@PathParam("state-params") String stateParams,
@@ -324,7 +325,7 @@ public interface HistoryRESTApi
 	@PUT
 	@Path("/devices/{device-id}/states/discrete/{state-name}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void insertSpecificDeviceDiscreteStateJSON(
+	public Response insertSpecificDeviceDiscreteStateJSON(
 			@PathParam("device-id") String deviceId,
 			@PathParam("state-name") String stateName,
 			String jsonData, @Context HttpServletResponse httpResponse);

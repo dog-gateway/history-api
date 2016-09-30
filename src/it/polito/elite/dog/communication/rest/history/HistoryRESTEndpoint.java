@@ -511,132 +511,132 @@ public class HistoryRESTEndpoint implements HistoryRESTApi
 	}
 
 	@Override
-	public void insertSpecificDeviceParametricNotificationCSV(String deviceId,
+	public Response insertSpecificDeviceParametricNotificationCSV(String deviceId,
 			String notificationName, String csvData,
 			HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName, null,
 				csvData, EventDataType.MEASURE, EventType.NOTIFICATION,
 				MediaType.TEXT_PLAIN);
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Override
-	public void insertSpecificDeviceParametricNotificationCSV(String deviceId,
+	public Response insertSpecificDeviceParametricNotificationCSV(String deviceId,
 			String notificationName, String notificationParams, String csvData,
 			HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName,
 				notificationParams, csvData, EventDataType.MEASURE,
 				EventType.NOTIFICATION, MediaType.TEXT_PLAIN);
 
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Override
-	public void insertSpecificDeviceNonParametricNotificationCSV(
+	public Response insertSpecificDeviceNonParametricNotificationCSV(
 			String deviceId, String notificationName, String csvData,
 			HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName, null,
 				csvData, EventDataType.NOTMEASURE, EventType.NOTIFICATION,
 				MediaType.TEXT_PLAIN);
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Override
-	public void insertSpecificDeviceContinuousStateCSV(String deviceId,
+	public Response insertSpecificDeviceContinuousStateCSV(String deviceId,
 			String stateName, String csvData, HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, null, csvData,
 				EventDataType.MEASURE, EventType.STATE, MediaType.TEXT_PLAIN);
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Override
-	public void insertSpecificDeviceContinuousStateCSV(String deviceId,
+	public Response insertSpecificDeviceContinuousStateCSV(String deviceId,
 			String stateName, String stateParams, String csvData,
 			HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, stateParams,
 				csvData, EventDataType.MEASURE, EventType.STATE,
 				MediaType.TEXT_PLAIN);
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Override
-	public void insertSpecificDeviceDiscreteStateCSV(String deviceId,
+	public Response insertSpecificDeviceDiscreteStateCSV(String deviceId,
 			String stateName, String csvData, HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, null, csvData,
 				EventDataType.NOTMEASURE, EventType.STATE,
 				MediaType.TEXT_PLAIN);
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Override
-	public void insertSpecificDeviceParametricNotificationJSON(String deviceId,
+	public Response insertSpecificDeviceParametricNotificationJSON(String deviceId,
 			String notificationName, String jsonData,
 			HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName, null,
 				jsonData, EventDataType.MEASURE, EventType.NOTIFICATION,
 				MediaType.APPLICATION_JSON);
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Override
-	public void insertSpecificDeviceParametricNotificationJSON(String deviceId,
+	public Response insertSpecificDeviceParametricNotificationJSON(String deviceId,
 			String notificationName, String notificationParams, String jsonData,
 			HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName,
 				notificationParams, jsonData, EventDataType.MEASURE,
 				EventType.NOTIFICATION, MediaType.APPLICATION_JSON);
-
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Override
-	public void insertSpecificDeviceNonParametricNotificationJSON(
+	public Response insertSpecificDeviceNonParametricNotificationJSON(
 			String deviceId, String notificationName, String jsonData,
 			HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, notificationName, null,
 				jsonData, EventDataType.NOTMEASURE, EventType.NOTIFICATION,
 				MediaType.APPLICATION_JSON);
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Override
-	public void insertSpecificDeviceContinuousStateJSON(String deviceId,
+	public Response insertSpecificDeviceContinuousStateJSON(String deviceId,
 			String stateName, String jsonData, HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, null, jsonData,
 				EventDataType.MEASURE, EventType.STATE,
 				MediaType.APPLICATION_JSON);
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Override
-	public void insertSpecificDeviceContinuousStateJSON(String deviceId,
+	public Response insertSpecificDeviceContinuousStateJSON(String deviceId,
 			String stateName, String stateParams, String jsonData,
 			HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, stateParams,
 				jsonData, EventDataType.MEASURE, EventType.STATE,
 				MediaType.APPLICATION_JSON);
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Override
-	public void insertSpecificDeviceDiscreteStateJSON(String deviceId,
+	public Response insertSpecificDeviceDiscreteStateJSON(String deviceId,
 			String stateName, String jsonData, HttpServletResponse httpResponse)
 	{
-		this.setCORSSupport(httpResponse);
 		this.insertDeviceSpecificEventData(deviceId, stateName, null, jsonData,
 				EventDataType.NOTMEASURE, EventType.STATE,
 				MediaType.APPLICATION_JSON);
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	private void insertDeviceSpecificEventData(String deviceId, String name,
