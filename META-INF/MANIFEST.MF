@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: HistoryApi
 Bundle-SymbolicName: it.polito.elite.dog.communication.rest.history.api
-Bundle-Version: 1.0.0
+Bundle-Version: 1.1.0
 Bundle-Vendor: elite.polito.it
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Service-Component: OSGI-INF/historyapi.xml
